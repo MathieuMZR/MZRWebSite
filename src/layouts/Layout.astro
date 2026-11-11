@@ -1,0 +1,81 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+}
+const { title, description = 'Portfolio de Mathieu Mézière' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="/">Mathieu Mézière</a>
+      <nav>
+        <a href="/">Accueil</a>
+        <a href="/projets">Projets</a>
+        <a href="/a-propos">À propos</a>
+        <a href="/contact">Contact</a>
+      </nav>
+    </header>
+    <main>
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <p>© {new Date().getFullYear()} Mathieu Mézière</p>
+    </footer>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --bg: #ffffff;
+    --fg: #111827;
+    --muted: #6b7280;
+    --accent: #2563eb;
+    --border: #e5e7eb;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0b0f17;
+      --fg: #e5e7eb;
+      --muted: #9ca3af;
+      --accent: #60a5fa;
+      --border: #1f2937;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--fg);
+    line-height: 1.6;
+  }
+  a { color: var(--accent); }
+  main, .site-header, .site-footer {
+    max-width: 48rem;
+    margin: 0 auto;
+    padding: 1rem 1.25rem;
+  }
+  .site-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .site-header .brand { font-weight: 700; color: var(--fg); text-decoration: none; }
+  .site-header nav { display: flex; gap: 1rem; }
+  .site-header nav a { text-decoration: none; color: var(--muted); }
+  .site-header nav a:hover { color: var(--accent); }
+  .site-footer { color: var(--muted); border-top: 1px solid var(--border); margin-top: 3rem; }
+</style>

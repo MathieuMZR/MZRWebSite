@@ -1,0 +1,23 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// Pour ajouter un projet : copie un bloc { ... } ci-dessous.
+const projets = [
+  {
+    titre: 'Projet exemple',
+    description: 'Une courte description de ce projet.',
+    lien: 'https://github.com/mathieumzr',
+  },
+];
+---
+
+<Layout title="Projets — Mathieu Mézière">
+  <h1>Projets</h1>
+  <ul>
+    {projets.map((p) => (
+      <li>
+        <a href={p.lien}><strong>{p.titre}</strong></a> — {p.description}
+      </li>
+    ))}
+  </ul>
+</Layout>
