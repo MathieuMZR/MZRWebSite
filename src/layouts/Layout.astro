@@ -35,20 +35,26 @@ const { title, description = 'Portfolio de Mathieu Mézière' } = Astro.props;
 </html>
 
 <style is:global>
+  /* Palette : fond #ededed, texte #292835, secondaire #1fc198, primaire #4169e1, alerte #e14b41 */
   :root {
-    --bg: #ffffff;
-    --fg: #111827;
-    --muted: #6b7280;
-    --accent: #2563eb;
-    --border: #e5e7eb;
+    --bg: #ededed;
+    --text: #292835;
+    --primary: #4169e1;
+    --secondary: #1fc198;
+    --warning: #e14b41;
+
+    /* Dérivées (contrastes vérifiés : texte 12.4, lien 5.2) */
+    --muted: color-mix(in srgb, var(--text) 70%, var(--bg));
+    --border: color-mix(in srgb, var(--text) 15%, var(--bg));
+    --link: color-mix(in srgb, var(--primary) 80%, var(--text));
+    --on-primary: #ffffff;
   }
+  /* Mode sombre : on inverse fond/texte. Le vert est plus lisible que le bleu sur fond foncé. */
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg: #0b0f17;
-      --fg: #e5e7eb;
-      --muted: #9ca3af;
-      --accent: #60a5fa;
-      --border: #1f2937;
+      --bg: #292835;
+      --text: #ededed;
+      --link: var(--secondary);
     }
   }
   * { box-sizing: border-box; }
@@ -56,10 +62,12 @@ const { title, description = 'Portfolio de Mathieu Mézière' } = Astro.props;
     margin: 0;
     font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
     background: var(--bg);
-    color: var(--fg);
+    color: var(--text);
     line-height: 1.6;
   }
-  a { color: var(--accent); }
+  a { color: var(--link); text-underline-offset: 0.2em; }
+  a:hover { color: var(--primary); }
+  :focus-visible { outline: 3px solid var(--secondary); outline-offset: 2px; }
   main, .site-header, .site-footer {
     max-width: 48rem;
     margin: 0 auto;
@@ -71,11 +79,35 @@ const { title, description = 'Portfolio de Mathieu Mézière' } = Astro.props;
     align-items: center;
     flex-wrap: wrap;
     gap: 0.5rem;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 3px solid var(--secondary);
   }
-  .site-header .brand { font-weight: 700; color: var(--fg); text-decoration: none; }
+  .site-header .brand {
+    font-weight: 700;
+    color: var(--text);
+    text-decoration: none;
+  }
   .site-header nav { display: flex; gap: 1rem; }
   .site-header nav a { text-decoration: none; color: var(--muted); }
-  .site-header nav a:hover { color: var(--accent); }
+  .site-header nav a:hover { color: var(--link); text-decoration: underline; }
   .site-footer { color: var(--muted); border-top: 1px solid var(--border); margin-top: 3rem; }
+
+  /* Bouton principal */
+  .button {
+    display: inline-block;
+    padding: 0.6rem 1.1rem;
+    background: var(--primary);
+    color: var(--on-primary);
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .button:hover { color: var(--on-primary); filter: brightness(1.1); }
+
+  /* Message d'avertissement : bordure rouge, texte normal (lisible) */
+  .notice {
+    border-left: 4px solid var(--warning);
+    background: color-mix(in srgb, var(--warning) 10%, var(--bg));
+    padding: 0.75rem 1rem;
+    border-radius: 0.25rem;
+  }
 </style>
